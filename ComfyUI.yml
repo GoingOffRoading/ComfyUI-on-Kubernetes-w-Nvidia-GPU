@@ -39,7 +39,7 @@ spec:
           volumeMounts:
             - name: comfyui-config
               mountPath: "/home/runner"
-      nodeName: node100-system-product-name # Change the nodeName to match the node name that you intend to deploy to
+      nodeName: (NODENAME HERE)) # Change the nodeName to match the node name that you intend to deploy to
       volumes:
         - name: comfyui-config
           hostPath:
