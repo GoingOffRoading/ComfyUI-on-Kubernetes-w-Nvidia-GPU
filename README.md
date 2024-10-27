@@ -1,6 +1,6 @@
 # ComfyUI-on-Kubernetes-w-Nvidia-GPU
 
-![ComfyUI](https://github.com/GoingOffRoading/ComfyUI-on-Kubernetes-w-Nvidia-GPU/comfyui.png)
+![ComfyUI](https://github.com/GoingOffRoading/ComfyUI-on-Kubernetes-w-Nvidia-GPU/blob/main/comfyui.webp)
 
 # Abstraction
 
@@ -17,15 +17,17 @@ There is not an official ComfyUI on Docker from the ComfyUI team that I am aware
 # Deployment Steps
 
 1. Ensure that you have the [Nvidia drivers installed on the client](https://ubuntu.com/server/docs/nvidia-drivers-installation) and [Nivida Kuberentes plugin installed and enabled](https://github.com/NVIDIA/k8s-device-plugin).
-2. Download [ComfyUI.yml](https://github.com/GoingOffRoading/Ollama-on-Kubernetes-w-Nvidia-GPU/blob/main/Ollama.yml) from this repo.
+2. Download [ComfyUI.yml](https://github.com/GoingOffRoading/ComfyUI-on-Kubernetes-w-Nvidia-GPU/blob/main/ComfyUI.yml) from this repo.
 3. Make changes to the deployment... Most importantly the local directory that Ollama will persist it's volume in, and the nodeName.
-4. Assuming you have kubectl installed and configured on this machine, run: `kubectl apply -f Ollama.yml`.
-5. Get the Ollama pod name from `kubectl get pods`.
-6. SSH into the pod via `kubectl exec -t (pod name) -- /bin/sh`.
-7. Download and run a model.  As of October, the latest on Ollama is `ollama run llama3.2` but there are certainly [many more models to chose from](https://ollama.com/library).
-8. Enjoy!
+4. Assuming you have kubectl installed and configured on this machine, run: `kubectl apply -f comfyui.yml`.
+5. Enjoy!  The ComfyUI...  UI...  Is avaliable at the IP address of the nodeName machine, and the port of `32127`
 
-Also, take note that Ollama is being exposed for API calls at the API of the machine in the nodeName, and port `32127` (assuming you did not change the service to load ballancer, or change the NodePort).
+# What is the Configuration for Open WebUI?
+
+These are the steps that I replicated from this [YouTuve video](https://www.youtube.com/watch?v=t68_mYLnSG4):
+
+* Click the gear wheel on the right, and enable `Dev Mode: Enable dev mode options (API save, etc.)`
+* Click `Save (API Format)` and hold onto this file for later.  The rest of the steps will be in the Open WebUI repo.
 
 # Common Questions
 
@@ -45,5 +47,4 @@ Also, take note that Ollama is being exposed for API calls at the API of the mac
 
 - [ ] Setup a PV/PVC
 - [ ] Setup node affinities
-- [ ] Change the image back to `olamma/olamma` once image processing is in main
 - [ ] Resouce limits?
