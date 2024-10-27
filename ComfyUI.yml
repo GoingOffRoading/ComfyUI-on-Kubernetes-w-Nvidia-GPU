@@ -1,0 +1,65 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: comfyui
+  namespace: default
+  labels:
+    app: comfyui
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: comfyui
+  template:
+    metadata:
+      labels:
+        app: comfyui
+    spec:
+      dnsPolicy: "None" # You need to disable the cluster DNS
+      dnsConfig:
+        nameservers:
+          - 1.1.1.1
+        searches:
+          - svc.cluster.local
+      runtimeClassName: nvidia
+      containers:
+        - name: comfyui
+          image: yanwk/comfyui-boot:cu121
+          imagePullPolicy: Always
+          env:
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: all
+            - name: NVIDIA_DRIVER_CAPABILITIES
+              value: all
+          #command: ["/bin/sh", "-c"]
+          #args: ["ollama run llama3.2"]
+          ports:
+            - containerPort: 8188
+          volumeMounts:
+            - name: comfyui-config
+              mountPath: "/home/runner"
+      nodeName: node100-system-product-name
+      volumes:
+        - name: comfyui-config
+          hostPath:
+              path: /mnt/ssd2/comfyui
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: comfyui
+  namespace: default
+spec:
+  selector:
+    app: comfyui
+  ports:
+    - name: comfyui
+      protocol: TCP
+      port: 8188 
+      nodePort: 32127
+  type: NodePort
+
