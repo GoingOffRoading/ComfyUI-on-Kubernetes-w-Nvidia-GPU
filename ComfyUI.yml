@@ -34,18 +34,16 @@ spec:
               value: all
             - name: NVIDIA_DRIVER_CAPABILITIES
               value: all
-          #command: ["/bin/sh", "-c"]
-          #args: ["ollama run llama3.2"]
           ports:
             - containerPort: 8188
           volumeMounts:
             - name: comfyui-config
               mountPath: "/home/runner"
-      nodeName: node100-system-product-name
+      nodeName: node100-system-product-name # Change the nodeName to match the node name that you intend to deploy to
       volumes:
         - name: comfyui-config
           hostPath:
-              path: /mnt/ssd2/comfyui
+              path: /mnt/ssd/comfyui # Change this to whatever the directory path is that you are persisting the container volume from
 
 ---
 apiVersion: v1
